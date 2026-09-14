@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+:root {
+  --ground: #f2efe8;
+  --surface: #fbfaf6;
+  --surface-sunken: #e8e3d7;
+  --ink: #201d17;
+  --ink-muted: #6d6558;
+  --border: #d9d2c1;
+  --border-strong: #b9b09a;
+
+  --stamp-red: #a3291d;
+  --stamp-red-ink: #7c1f16;
+  --stamp-red-tint: #f4e2de;
+
+  --amber: #ad7415;
+  --amber-ink: #855810;
+  --amber-tint: #f2e6cf;
+
+  --green: #43594e;
+  --green-ink: #303f37;
+  --green-tint: #e2e8e3;
+
+  --focus-ring: #7c1f16;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --ground: #1b1815;
+    --surface: #242019;
+    --surface-sunken: #171410;
+    --ink: #f1ece1;
+    --ink-muted: #a89e8c;
+    --border: #3a3327;
+    --border-strong: #504632;
+
+    --stamp-red: #e2604c;
+    --stamp-red-ink: #ff9782;
+    --stamp-red-tint: #3a231e;
+
+    --amber: #e2a53f;
+    --amber-ink: #f4c876;
+    --amber-tint: #3a2f1a;
+
+    --green: #8fae9c;
+    --green-ink: #b7d1c2;
+    --green-tint: #1f2e26;
+
+    --focus-ring: #ff9782;
+  }
+}
+
+@theme inline {
+  --color-ground: var(--ground);
+  --color-surface: var(--surface);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-border: var(--border);
+  --color-border-strong: var(--border-strong);
+
+  --color-stamp-red: var(--stamp-red);
+  --color-stamp-red-ink: var(--stamp-red-ink);
+  --color-stamp-red-tint: var(--stamp-red-tint);
+  --color-amber: var(--amber);
+  --color-amber-ink: var(--amber-ink);
+  --color-amber-tint: var(--amber-tint);
+  --color-green: var(--green);
+  --color-green-ink: var(--green-ink);
+  --color-green-tint: var(--green-tint);
+
+  --font-sans: var(--font-body);
+  --font-mono: var(--font-stamp);
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  border-color: var(--border);
+}
+
+::selection {
+  background: var(--stamp-red);
+  color: var(--surface);
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--ground);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 2px solid var(--ground);
+}
+
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+.stamp-numerals {
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}

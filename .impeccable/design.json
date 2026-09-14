@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-09-13T00:00:00Z",
+  "title": "Design System: fmwworks",
+  "extensions": {
+    "colorMeta": {
+      "stamp-red": { "role": "primary", "displayName": "Stamp Red", "canonical": "#a3291d" },
+      "amber": { "role": "secondary", "displayName": "Stamp Amber", "canonical": "#ad7415" },
+      "green": { "role": "secondary", "displayName": "Stamp Green", "canonical": "#43594e" },
+      "ground": { "role": "neutral", "displayName": "Ground", "canonical": "#f2efe8" },
+      "surface": { "role": "neutral", "displayName": "Surface", "canonical": "#fbfaf6" },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#201d17" }
+    },
+    "typographyMeta": {
+      "body": { "displayName": "Body (Inter)", "purpose": "All UI copy, labels, prose." },
+      "stamp": { "displayName": "Stamp (IBM Plex Mono)", "purpose": "Registration numbers, VINs, prices, timestamps only." }
+    },
+    "shadows": [
+      { "name": "card-hover", "value": "0 6px 16px -4px rgba(32,29,23,0.18)", "purpose": "Car card hover/focus lift." },
+      { "name": "punch-button", "value": "0 10px 24px -6px rgba(122,31,22,0.55)", "purpose": "Permanent floating action shadow on the register button." }
+    ],
+    "motion": [
+      { "name": "card-lift", "value": "transform 150ms, box-shadow 150ms", "purpose": "Car card hover translate + shadow." }
+    ],
+    "breakpoints": [
+      { "name": "sm", "value": "640px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Car Card",
+      "kind": "card",
+      "refersTo": "card-car",
+      "description": "Rack entry: registration number in stamp mono, make/model beneath, Stamp Mark at right.",
+      "html": "<a class=\"ds-car-card\" href=\"#\"><div><p class=\"ds-car-plate\">AB12 CDE</p><p class=\"ds-car-sub\">2019 Toyota Corolla</p></div><span class=\"ds-stamp ds-stamp-red\"><span class=\"ds-stamp-label\">Incoming</span><span class=\"ds-stamp-date\">13 Sep 2026</span></span></a>",
+      "css": ".ds-car-card { display:flex; align-items:center; justify-content:space-between; gap:16px; border:1px solid #d9d2c1; background:#fbfaf6; padding:16px 20px; text-decoration:none; transition: transform 150ms, box-shadow 150ms; } .ds-car-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px -4px rgba(32,29,23,0.18); } .ds-car-plate { font-family: 'IBM Plex Mono', monospace; font-weight:600; font-size:1.25rem; color:#201d17; margin:0; } .ds-car-sub { font-size:0.875rem; color:#6d6558; margin:4px 0 0; } .ds-stamp { display:inline-flex; flex-direction:column; gap:2px; border:2px solid #a3291d; color:#7c1f16; padding:4px 10px; font-family:'IBM Plex Mono', monospace; transform: rotate(-1.5deg); } .ds-stamp-label { font-size:0.7rem; font-weight:700; text-transform:uppercase; letter-spacing:0.12em; } .ds-stamp-date { font-size:0.65rem; opacity:0.8; }"
+    },
+    {
+      "name": "Punch Button",
+      "kind": "custom",
+      "refersTo": "button-punch",
+      "description": "Fixed circular floating action, bottom-right, for registering a new car.",
+      "html": "<button class=\"ds-punch\" aria-label=\"Register a new car\"><svg width=\"28\" height=\"28\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg></button>",
+      "css": ".ds-punch { width:64px; height:64px; border-radius:999px; background:#a3291d; color:#fbfaf6; border:none; display:flex; align-items:center; justify-content:center; box-shadow: 0 10px 24px -6px rgba(122,31,22,0.55); transition: transform 150ms; } .ds-punch:hover { transform: scale(1.05); } .ds-punch:active { transform: scale(0.95); }"
+    },
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Default form submit / confirm action.",
+      "html": "<button class=\"ds-btn-primary\">Sign in</button>",
+      "css": ".ds-btn-primary { background:#201d17; color:#fbfaf6; padding:10px 20px; border:none; font-size:0.875rem; font-weight:600; transition: opacity 150ms; } .ds-btn-primary:hover { opacity:0.9; } .ds-btn-primary:focus-visible { outline:2px solid #7c1f16; outline-offset:2px; } .ds-btn-primary:disabled { opacity:0.5; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Time Rack",
+    "overview": "fmwworks renders a car's life in the shop as a wall-mounted punch-clock rack, not a generic admin dashboard. Every car is a stamped card: it clocks in on intake and clocks out on delivery, and every status change in between adds a new stamp on top of the last rather than replacing it — the full history is always there to read, never silently overwritten. This is a working tool for garage staff, not a showcase; steel-gray and off-white grounds, ink-red/amber/green stamp colors, and a stamp-styled monospace for every registration number, VIN, and timestamp carry the identity, while the rest of the interface stays quiet, legible, and gets out of the way of the task.",
+    "keyCharacteristics": [
+      "Append-only stamp history — status changes are added, never overwritten, on every car record.",
+      "Registration numbers, VINs, and timestamps always render in the stamp monospace; nothing else does.",
+      "Stats are shown as a single ruled ledger strip, never as separate hero-metric cards.",
+      "One card per row on mobile; a fluid multi-column rack on wider screens."
+    ],
+    "rules": [
+      { "name": "The One Stamp Rule", "body": "A car's status is communicated by exactly one device — its stamp mark (border + ink color + label) — never duplicated as a separate colored badge, dot, or icon elsewhere on the same card.", "section": "colors" },
+      { "name": "The Mono-Means-Recorded Rule", "body": "IBM Plex Mono appears only on registration numbers, VINs, prices, and timestamps — never as a generic \"technical\" flourish elsewhere.", "section": "typography" },
+      { "name": "The Flat-Until-Touched Rule", "body": "Nothing carries a shadow at rest except the one permanently-floating action (the punch button). Every other shadow is a response to hover or focus.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do keep registration numbers, VINs, prices, and timestamps in the stamp monospace (IBM Plex Mono) everywhere they appear.",
+      "Do render status via the Stamp Mark component's border/ink color, never as an additional colored dot or pill on the same element.",
+      "Do keep the car rack at one column on mobile; widen only from sm and up.",
+      "Do show income/stats as a single bordered ledger strip with internal rules, not as separate metric cards.",
+      "Do append new stamp-timeline entries rather than editing or replacing prior ones."
+    ],
+    "donts": [
+      "Don't add rounded corners to cards, inputs, or buttons — square corners are the system, with the punch-button circle and rotated stamp marks as the only deliberate exceptions.",
+      "Don't introduce a second color-coding device (a badge, an icon, a colored left border) alongside the Stamp Mark to indicate status or urgency.",
+      "Don't use IBM Plex Mono for ordinary UI copy or labels.",
+      "Don't show the \"register a new car\" punch-button on the register flow itself."
+    ]
+  }
+}
