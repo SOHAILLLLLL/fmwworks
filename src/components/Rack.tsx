@@ -1,8 +1,8 @@
-import type { Car } from "@/lib/types";
+import type { CarWithThumbnail } from "@/lib/types";
 import { CarCard } from "@/components/CarCard";
 import { EmptyState } from "@/components/EmptyState";
 
-export function Rack({ cars, emptyLabel }: { cars: Car[]; emptyLabel: string }) {
+export function Rack({ cars, emptyLabel }: { cars: CarWithThumbnail[]; emptyLabel: string }) {
   if (cars.length === 0) {
     return <EmptyState label={emptyLabel} />;
   }

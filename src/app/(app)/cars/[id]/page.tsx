@@ -7,8 +7,10 @@ import { AddStampForm } from "@/components/AddStampForm";
 import { AddPartForm } from "@/components/AddPartForm";
 import { MarkOutgoingForm } from "@/components/MarkOutgoingForm";
 import { PhotoStrip } from "@/components/PhotoStrip";
+import { DeleteCarPanel } from "@/components/DeleteCarPanel";
+import { DeletePartButton } from "@/components/DeletePartButton";
 import { formatMoney, formatStampDate } from "@/lib/format";
-import { addStamp, addPart, markOutgoing } from "./actions";
+import { addStamp, addPart, markOutgoing, deleteCar, deletePart } from "./actions";
 
 export default async function CarDetailPage({
   params,
@@ -32,6 +34,7 @@ export default async function CarDetailPage({
   const boundAddStamp = addStamp.bind(null, car.id);
   const boundAddPart = addPart.bind(null, car.id);
   const boundMarkOutgoing = markOutgoing.bind(null, car.id);
+  const boundDeleteCar = deleteCar.bind(null, car.id);
 
   const subtitle = [car.year, car.make, car.model].filter(Boolean).join(" ");
   const partsCost = parts.reduce((sum, part) => sum + (part.cost ?? 0), 0);
@@ -98,13 +101,16 @@ export default async function CarDetailPage({
           <ul className="flex flex-col divide-y divide-border border border-border bg-surface">
             {parts.map((part) => (
               <li key={part.id} className="flex items-center justify-between gap-3 px-4 py-3">
-                <div>
+                <div className="min-w-0">
                   <p className="text-sm font-medium text-ink">{part.part_name}</p>
                   {part.notes && <p className="text-xs text-ink-muted">{part.notes}</p>}
                 </div>
-                <span className="stamp-numerals shrink-0 font-mono text-sm text-ink">
-                  {formatMoney(part.cost)}
-                </span>
+                <div className="flex shrink-0 items-center gap-3">
+                  <span className="stamp-numerals font-mono text-sm text-ink">
+                    {formatMoney(part.cost)}
+                  </span>
+                  <DeletePartButton action={deletePart.bind(null, car.id, part.id)} />
+                </div>
               </li>
             ))}
           </ul>
@@ -120,6 +126,8 @@ export default async function CarDetailPage({
           <p className="border border-border bg-surface p-4 text-sm text-ink">{car.intake_notes}</p>
         </section>
       )}
+
+      <DeleteCarPanel registrationNumber={car.registration_number} action={boundDeleteCar} />
     </div>
   );
 }
