@@ -81,3 +81,53 @@ export async function markOutgoing(carId: string, formData: FormData) {
   revalidatePath("/incoming");
   revalidatePath("/outgoing");
 }
+
+export async function deletePart(carId: string, partId: string) {
+  const supabase = await createClient();
+  const { error } = await supabase.from("car_parts").delete().eq("id", partId);
+  if (error) throw error;
+
+  revalidatePath(`/cars/${carId}`);
+}
+
+export async function deleteCar(
+  carId: string,
+  formData: FormData,
+): Promise<{ error: string } | { success: true }> {
+  const confirmText = String(formData.get("confirm") ?? "").trim().toUpperCase();
+
+  const supabase = await createClient();
+  const { data: car, error: fetchError } = await supabase
+    .from("cars")
+    .select("registration_number")
+    .eq("id", carId)
+    .single();
+
+  if (fetchError || !car) {
+    return { error: "Could not find this car — it may already be deleted." };
+  }
+
+  if (confirmText !== car.registration_number.toUpperCase()) {
+    return { error: "That registration number doesn't match. Nothing was deleted." };
+  }
+
+  const { data: photos } = await supabase
+    .from("car_photos")
+    .select("storage_path")
+    .eq("car_id", carId);
+
+  const { error: deleteError } = await supabase.from("cars").delete().eq("id", carId);
+  if (deleteError) {
+    return { error: deleteError.message };
+  }
+
+  if (photos && photos.length > 0) {
+    await supabase.storage.from("car-photos").remove(photos.map((photo) => photo.storage_path));
+  }
+
+  revalidatePath("/");
+  revalidatePath("/incoming");
+  revalidatePath("/outgoing");
+
+  return { success: true };
+}

@@ -60,3 +60,7 @@ export interface CarPhoto {
   storage_path: string;
   created_at: string;
 }
+
+export interface CarWithThumbnail extends Car {
+  thumbnailUrl: string | null;
+}

@@ -66,21 +66,29 @@ create policy "Authenticated staff can write cars" on cars
   for insert to authenticated with check (true);
 create policy "Authenticated staff can update cars" on cars
   for update to authenticated using (true) with check (true);
+create policy "Authenticated staff can delete cars" on cars
+  for delete to authenticated using (true);
 
 create policy "Authenticated staff can read stamps" on car_stamps
   for select to authenticated using (true);
 create policy "Authenticated staff can add stamps" on car_stamps
   for insert to authenticated with check (true);
+create policy "Authenticated staff can delete stamps" on car_stamps
+  for delete to authenticated using (true);
 
 create policy "Authenticated staff can read parts" on car_parts
   for select to authenticated using (true);
 create policy "Authenticated staff can add parts" on car_parts
   for insert to authenticated with check (true);
+create policy "Authenticated staff can delete parts" on car_parts
+  for delete to authenticated using (true);
 
 create policy "Authenticated staff can read photos" on car_photos
   for select to authenticated using (true);
 create policy "Authenticated staff can add photos" on car_photos
   for insert to authenticated with check (true);
+create policy "Authenticated staff can delete photos" on car_photos
+  for delete to authenticated using (true);
 
 -- Storage bucket for intake photos. Create it once (public read so the
 -- app can render thumbnails via a plain public URL; writes are restricted
@@ -95,4 +103,8 @@ create policy "Authenticated staff can upload car photos"
 
 create policy "Anyone can view car photos"
   on storage.objects for select
+  using (bucket_id = 'car-photos');
+
+create policy "Authenticated staff can delete car photo files"
+  on storage.objects for delete to authenticated
   using (bucket_id = 'car-photos');
